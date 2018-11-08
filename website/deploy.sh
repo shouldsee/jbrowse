@@ -7,6 +7,9 @@ RELEASE_VERSION=`node -e 'require("fs").readFile("package.json", (e,d)=>console.
 set -e
 set -x
 cd ${0%/*}
+npm --version
+node --version
+pwd
 yarn
 yarn build
 ln -sf ../code/JBrowse-$RELEASE_VERSION/dist build/jbrowse/docs/dist
