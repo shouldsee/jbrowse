@@ -7,8 +7,8 @@ RELEASE_VERSION=`node -e 'require("fs").readFile("package.json", (e,d)=>console.
 set -e
 set -x
 cd ${0%/*}
-yarn
-yarn build
+npx yarn
+npx yarn build
 ln -sf ../code/JBrowse-$RELEASE_VERSION/dist build/jbrowse/docs/dist
 openssl aes-256-cbc -K $encrypted_a33f2fb5219d_key -iv $encrypted_a33f2fb5219d_iv -in deploy.pem.enc -out deploy.pem -d
 chmod 600 deploy.pem
