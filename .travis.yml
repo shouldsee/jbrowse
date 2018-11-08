@@ -27,6 +27,7 @@ before_install:
   - sudo apt-get -qq update
   - sudo apt-get install wine1.6 # this is for building windows electron images
 install:
+- npm install -g yarn
 - mkdir ~/geckodriver_$GECKODRIVER_VERSION;
 - wget -O - https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz | tar -xzf - -C ~/geckodriver_$GECKODRIVER_VERSION;
 - export PATH=$PATH:$HOME/geckodriver_$GECKODRIVER_VERSION
