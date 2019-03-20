@@ -42,7 +42,7 @@
             }());
         };
         
-        resetTrackHeight = function(a){
+        resetTrackHeight = function(min=null,max=null){
             console.log(this)
             console.log("fully loaded!");
             var jb = window.JBrowse;
@@ -50,8 +50,8 @@
             (jb.config.queryParams.quantMin ||
              jb.config.queryParams.quantMax) &&
             (
-                min = parseInt(jb.config.queryParams.quantMin) || null,
-                max = parseInt(jb.config.queryParams.quantMax) || null,
+                min = min || parseInt(jb.config.queryParams.quantMin) || null,
+                max = max || parseInt(jb.config.queryParams.quantMax) || null,
                 window.setTimeout(
                     function(){
                         Array.forEach(
@@ -66,12 +66,44 @@
         window.addEventListener(
             "jb_loaded",resetTrackHeight
         )
+        
+        
+        initFormValue = function(min=null,max=null){
+            var jb = window.JBrowse;
+            document.getElementById("quantMax").value=jb.config.queryParams.quantMax
+            document.getElementById("quantMin").value=jb.config.queryParams.quantMin
+//             var fm = document.forms["yrange"]
+//             fm.quantMax.value = parseInt(jb.config.queryParams.quantMax)
+//             fm.quantMin.value = parseInt(jb.config.queryParams.quantMin)
+            console.log(jb.config.queryParams.quantMax,jb.config.queryParams.quantMax)
+            
+        }
+        
+
+        validateForm = function(){
+            var fm = document.forms["yrange"]
+            resetTrackHeight(min=fm.quantMin.value,
+                             max=fm.quantMax.value)
+        }
+        
+        window.addEventListener(
+            "jb_loaded",initFormValue
+        )
+        
+
     </script>      
     <script type="text/javascript" src="dist/main.bundle.js" charset="utf-8"></script>
       
   </head>
+    
 
   <body>
+      <form name="yrange" action="" method="GET" onsubmit="validateForm(); return false;">
+      Min: <input type="text" name="quantMin" id="quantMin">
+      Max: <input type="text" name="quantMax" id="quantMax">
+      <input type="submit" value="reset Track Height">
+    </form>
+      
        <button type="button" onclick="resetTrackHeight()">Reset Track Height</button> 
     <div class="jbrowse" id="GenomeBrowser">
       <div id="LoadingScreen" style="padding: 50px;">
