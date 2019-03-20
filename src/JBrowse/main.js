@@ -109,7 +109,12 @@ function (
         // create a JBrowse global variable holding the JBrowse instance
         window.JBrowse = new Browser( config );
 
-        window.JBrowse.afterMilestone('loadRefSeqs', function() { dojo.destroy(dojo.byId('LoadingScreen')); });
+        window.JBrowse.afterMilestone('loadRefSeqs', function() { 
+            dojo.destroy(dojo.byId('LoadingScreen')); });
+        window.JBrowse.afterMilestone('completely initialized',function(){
+            var event = new Event('jb_loaded');
+            window.dispatchEvent(event);
+        });
     })
 });
 

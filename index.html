@@ -30,10 +30,49 @@
             width: 100%;
         }
     </style>
+    <script type="text/javascript" charset="utf-8">
+        setScale = function(t,min = null, max = null) { 
+            // / * Set the scale of a quantitative track*/
+            /\b(XYPlot|Density)/.test(t.config.type) && (function(){
+                min === null || (t.config.min_score =  min);
+                max === null || (t.config.max_score =  max);
+                t.config.autoscale = "local";
+                t.trackHeightChanged = true;
+                t.changed();
+            }());
+        };
+        
+        resetTrackHeight = function(a){
+            console.log(this)
+            console.log("fully loaded!");
+            var jb = window.JBrowse;
+                
+            (jb.config.queryParams.quantMin ||
+             jb.config.queryParams.quantMax) &&
+            (
+                min = parseInt(jb.config.queryParams.quantMin) || null,
+                max = parseInt(jb.config.queryParams.quantMax) || null,
+                window.setTimeout(
+                    function(){
+                        Array.forEach(
+                                jb.view.visibleTracks(),
+                                function(t){setScale(t,min,max)}
+                            )
+                    },1000),
+                console.log('adjusted quantitative track height')
+            )
+        };
+        
+        window.addEventListener(
+            "jb_loaded",resetTrackHeight
+        )
+    </script>      
     <script type="text/javascript" src="dist/main.bundle.js" charset="utf-8"></script>
+      
   </head>
 
   <body>
+       <button type="button" onclick="resetTrackHeight()">Reset Track Height</button> 
     <div class="jbrowse" id="GenomeBrowser">
       <div id="LoadingScreen" style="padding: 50px;">
         <h1>Loading...</h1>
@@ -41,4 +80,6 @@
     </div>
     <div style="display: none">JBrowseDefaultMainPage</div>
   </body>
+
+    
 </html>
